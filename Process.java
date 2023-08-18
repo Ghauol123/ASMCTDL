@@ -1,4 +1,4 @@
-package asm;
+package asm.ASMCTDL;
 
 import implementations.*;
 import javax.swing.JTextArea;
@@ -18,14 +18,13 @@ public class Process {
         while (!messageQueue.isEmpty()) {
             String message = messageQueue.poll();
             messageStack.push(message);
-
         }
     }
 
     public void showMessage(JTextArea outputTextArea) {
+        long startTime = System.currentTimeMillis();
         outputTextArea.setText(""); // Xóa nội dung cũ
         Stack<String> tempStack = new Stack<>(); // Ngăn xếp tạm
-        long startTime = System.currentTimeMillis();
 
         // Duyệt qua các phần tử trong ngăn xếp gốc và đẩy vào ngăn xếp tạm
         while (!messageStack.isEmpty()) {
@@ -37,10 +36,11 @@ public class Process {
             String message = tempStack.pop();
             outputTextArea.append(message + "\n");
             messageStack.push(message); // Đưa lại vào ngăn xếp gốc
+
             long endTime = System.currentTimeMillis(); // Ghi lại thời điểm kết thúc
             long elapsedTime = endTime - startTime; // Tính thời gian thực hiện
 
-            System.out.println("Thời gian thực hiện showMessage: " + elapsedTime + "ms");
+            System.out.println("\nThời gian thực hiện showMessage: " + elapsedTime + "ms\n");
         }
     }
     public void deleteLastedmessage(){
@@ -48,7 +48,21 @@ public class Process {
             messageStack.pop();
         }
     }
-    public void updateUI(JTextArea outputTextArea) {
+    public void updateUIQueue(JTextArea outputTextArea) {
+        outputTextArea.setText(""); // Xóa nội dung cũ
+
+        Stack<String> tempStack = new Stack<>(); // Ngăn xếp tạm để giữ nguyên thứ tự
+        while (!messageStack.isEmpty()) {
+            tempStack.push(messageStack.pop());
+        }
+
+        while (!tempStack.isEmpty()) {
+            String message = tempStack.pop();
+            outputTextArea.append(message + "\n");
+            messageStack.push(message); // Đưa lại vào ngăn xếp gốc
+        }
+    }
+    public void updateUIStack(JTextArea outputTextArea) {
         outputTextArea.setText(""); // Xóa nội dung cũ
 
         Stack<String> tempStack = new Stack<>(); // Ngăn xếp tạm để giữ nguyên thứ tự
