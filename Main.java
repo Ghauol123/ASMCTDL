@@ -3,14 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package asm;
+package asm.ASMCTDL;
 
-import asm.Process;
 import asm.Receive;
 import implementations.*;
-import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+
+import javax.swing.*;
 
 /**
  *
@@ -31,6 +29,11 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         jTextArea2.setEditable(false);
         jTextArea3.setEditable(false);
+        int sizeStack = messageStack.size();
+        int size1Queue = messageQueue.size();
+        String getsize1 = Integer.toString(size1Queue);
+        String getsizeStack = Integer.toString(sizeStack);
+        jTextArea3.append("Stack: "+ getsizeStack + "\n" + "Queue: "+ getsize1);
     }
 
     /**
@@ -50,8 +53,10 @@ public class Main extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
-        jPanel1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
+        JLabel jLabel1 = new JLabel();
+        JLabel jLabel2 = new JLabel();
+        JLabel jLabel3 = new JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -79,7 +84,7 @@ public class Main extends javax.swing.JFrame {
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                inputtext(evt);
             }
         });
         jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -88,10 +93,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Send Message");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addMessageFromQueueToStack(evt);
             }
         });
 
@@ -103,23 +108,18 @@ public class Main extends javax.swing.JFrame {
         jTextArea3.setRows(5);
         jScrollPane1.setViewportView(jTextArea3);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 145, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jButton3.setText("Search");
+        jButton3.setText("Delete");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                DeleteLastestMessage(evt);
             }
         });
+
+        jLabel1.setText("Queue Message");
+
+        jLabel2.setText("Stack Message");
+
+        jLabel3.setText("Input Message");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,95 +127,108 @@ public class Main extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(36, 36, 36)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGap(26, 26, 26)
-                                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(48, 48, 48)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(jButton3)
-                                                        .addComponent(jButton1))))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(145, Short.MAX_VALUE))
+                                                        .addComponent(jButton1)))
+                                        .addComponent(jLabel1))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(137, 137, 137)
+                                                .addComponent(jLabel2))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(163, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel2)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createSequentialGroup()
-                                                                .addGap(33, 33, 33)
+                                                                .addGap(11, 11, 11)
+                                                                .addComponent(jLabel1)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGap(47, 47, 47)
                                                                 .addComponent(jButton1)
                                                                 .addGap(22, 22, 22)
-                                                                .addComponent(jButton3)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                                .addComponent(jButton3))))
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGap(48, 48, 48)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(26, 26, 26)
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
-    }// </editor-fold>
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
+    }// </editor-fold>    
+    
+    private void inputtext(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        String inputText = jTextField1.getText().trim();
-        if (!inputText.isEmpty()) {
-            try {
-                // Split the input text into words
-                String[] words = inputText.split("\\s+");
-                if (words.length <= 250) {
-                    receive.addMessageToQueue(inputText);
-                    jTextField1.setText("");
-                    int size = messageQueue.size();
-                    String getsize = Integer.toString(size);
-                    jTextArea2.append("Added to queue: " + inputText +" "+ getsize + "\n");
-                } else {
-                    // Display an error message if the number of words exceeds 250
-                    JOptionPane.showMessageDialog(this, "Error: input must be less than 250 characters", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error: An unexpected error occurred", "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
+            String inputText = jTextField1.getText().trim();
+        try {
+            if (inputText.length() > 250) {
+                throw new Exception("input must be less than 250 characters");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: input must not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            if (inputText.isEmpty()) {
+                throw new Exception("input must not be empty");
+            }
+            receive.addMessageToQueue(inputText);
+            jTextField1.setText("");
+            int size = messageQueue.size();
+            String getsize = Integer.toString(size);
+            jTextArea2.append("Added to queue: " + inputText + " " + getsize + "\n");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+
+    private void addMessageFromQueueToStack(java.awt.event.ActionEvent evt) {
         if (messageQueue.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Queue is empty. No messages to transfer.", "Empty Queue", JOptionPane.INFORMATION_MESSAGE);
         } else {
             process.sendMessage();
             process.showMessage(jTextArea3);
-            process.updateUI(jTextArea2);
             int size = messageStack.size();
             int size1 = messageQueue.size();
             String getsize1 = Integer.toString(size1);
             String getsize = Integer.toString(size);
-            jTextArea3.append(getsize + " " + getsize1);
+            jTextArea3.append("Stack: "+ getsize + "\n" + "Queue: "+ getsize1);
+            process.updateQueueUI(jTextArea2);
         }
     }
 
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void DeleteLastestMessage(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        if (messageStack.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Stack is empty. No messages to delete.", "Empty Stack", JOptionPane.INFORMATION_MESSAGE);
+        }
         process.deleteLastedmessage();
-        process.updateUI(jTextArea3);
-//        jTextArea3.append("abc");
+        process.updateUIStack(jTextArea3);
+        int size = messageStack.size();
+        int size1 = messageQueue.size();
+        String getsize1 = Integer.toString(size1);
+        String getsize = Integer.toString(size);
+        jTextArea3.append("Stack: "+ getsize + "\n" + "Queue: "+ getsize1);
     }
 
     private void jTextField1PropertyChange(java.beans.PropertyChangeEvent evt) {
