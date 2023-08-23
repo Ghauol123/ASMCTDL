@@ -23,22 +23,21 @@ public class Process {
 
     public void showMessage(JTextArea outputTextArea) {
         long startTime = System.currentTimeMillis();
-        outputTextArea.setText(""); // Xóa nội dung cũ
-        Stack<String> tempStack = new Stack<>(); // Ngăn xếp tạm
+        outputTextArea.setText("");
+        Stack<String> tempStack = new Stack<>();
 
-        // Duyệt qua các phần tử trong ngăn xếp gốc và đẩy vào ngăn xếp tạm
+
         while (!messageStack.isEmpty()) {
             tempStack.push(messageStack.pop());
         }
 
-        // In ra các phần tử từ ngăn xếp tạm (theo thứ tự ban đầu)
+
         while (!tempStack.isEmpty()) {
             String message = tempStack.pop();
             outputTextArea.append(message + "\n");
-            messageStack.push(message); // Đưa lại vào ngăn xếp gốc
-
-            long endTime = System.currentTimeMillis(); // Ghi lại thời điểm kết thúc
-            long elapsedTime = endTime - startTime; // Tính thời gian thực hiện
+            messageStack.push(message);
+            long endTime = System.currentTimeMillis();
+            long elapsedTime = endTime - startTime;
 
             System.out.println("\nThời gian thực hiện showMessage: " + elapsedTime + "ms\n");
         }
@@ -49,9 +48,9 @@ public class Process {
         }
     }
     public void updateUIQueue(JTextArea outputTextArea) {
-        outputTextArea.setText(""); // Xóa nội dung cũ
+        outputTextArea.setText("");
 
-        Stack<String> tempStack = new Stack<>(); // Ngăn xếp tạm để giữ nguyên thứ tự
+        Stack<String> tempStack = new Stack<>();
         while (!messageStack.isEmpty()) {
             tempStack.push(messageStack.pop());
         }
@@ -59,13 +58,13 @@ public class Process {
         while (!tempStack.isEmpty()) {
             String message = tempStack.pop();
             outputTextArea.append(message + "\n");
-            messageStack.push(message); // Đưa lại vào ngăn xếp gốc
+            messageStack.push(message);
         }
     }
     public void updateUIStack(JTextArea outputTextArea) {
-        outputTextArea.setText(""); // Xóa nội dung cũ
+        outputTextArea.setText("");
 
-        Stack<String> tempStack = new Stack<>(); // Ngăn xếp tạm để giữ nguyên thứ tự
+        Stack<String> tempStack = new Stack<>();
         while (!messageStack.isEmpty()) {
             tempStack.push(messageStack.pop());
         }
@@ -73,10 +72,10 @@ public class Process {
         while (!tempStack.isEmpty()) {
             String message = tempStack.pop();
             outputTextArea.append(message + "\n");
-            messageStack.push(message); // Đưa lại vào ngăn xếp gốc
+            messageStack.push(message);
         }
     }
     public void updateQueueUI(JTextArea outputTextArea) {
-        outputTextArea.setText(""); // Xóa nội dung cũ
+        outputTextArea.setText("");
     }
 }
