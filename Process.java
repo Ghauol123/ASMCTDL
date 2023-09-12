@@ -47,20 +47,20 @@ public class Process {
             messageStack.pop();
         }
     }
-    public void updateUIQueue(JTextArea outputTextArea) {
-        outputTextArea.setText("");
-
-        Stack<String> tempStack = new Stack<>();
-        while (!messageStack.isEmpty()) {
-            tempStack.push(messageStack.pop());
-        }
-
-        while (!tempStack.isEmpty()) {
-            String message = tempStack.pop();
-            outputTextArea.append(message + "\n");
-            messageStack.push(message);
-        }
-    }
+//    public void updateUIQueue(JTextArea outputTextArea) {
+//        outputTextArea.setText("");
+//
+//        Stack<String> tempStack = new Stack<>();
+//        while (!messageStack.isEmpty()) {
+//            tempStack.push(messageStack.pop());
+//        }
+//
+//        while (!tempStack.isEmpty()) {
+//            String message = tempStack.pop();
+//            outputTextArea.append(message + "\n");
+//            messageStack.push(message);
+//        }
+//    }
     public void updateUIStack(JTextArea outputTextArea) {
         outputTextArea.setText("");
 
